@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MVZ Dashboard – Patientenübersicht</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar__brand">
+    <div class="topbar__logo">MVZ</div>
+    <div class="topbar__title">
+      <strong>Medizinisches Versorgungszentrum Lindenau</strong>
+      <span>Arzt-Dashboard · Testumgebung mit fiktiven Daten</span>
+    </div>
+  </div>
+
+  <div class="global-search" id="globalSearchWrap">
+    <span class="global-search__icon">🔎</span>
+    <input type="text" id="globalSearch" placeholder="Patienten, Diagnosen, Medikamente oder Laborwerte durchsuchen …" autocomplete="off">
+    <div class="global-search__results" id="globalSearchResults" hidden></div>
+  </div>
+
+  <div class="topbar__user">
+    <div class="topbar__user-info">
+      <strong>Dr. med. J. Falk</strong>
+      <span>Innere Medizin</span>
+    </div>
+    <div class="topbar__avatar">JF</div>
+  </div>
+</header>
+
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="search-box">
+      <label for="patientSearch">Patientensuche</label>
+      <input type="text" id="patientSearch" placeholder="Name, Geburtsdatum oder Patienten-ID …" autocomplete="off">
+    </div>
+    <ul class="patient-list" id="patientList"></ul>
+  </aside>
+
+  <main class="content" id="content">
+    <div class="empty-state" id="emptyState">
+      <h2>Kein Patient ausgewählt</h2>
+      <p>Bitte wählen Sie links einen Patienten aus der Liste aus oder nutzen Sie die Suche.</p>
+    </div>
+
+    <div class="dashboard" id="dashboard" hidden>
+
+      <div class="dashboard-header">
+        <div class="dashboard-header__info">
+          <h2 id="dashboardPatientName">–</h2>
+          <span id="dashboardPatientMeta"></span>
+        </div>
+        <button class="btn btn--primary" id="summarizeBtn" type="button">📋 Patient zusammenfassen</button>
+      </div>
+
+      <section class="clinical-summary" id="clinicalSummary">
+        <div class="summary-tile">
+          <span class="summary-tile__value" id="summaryDiagnoses">–</span>
+          <span class="summary-tile__label">Aktive Diagnosen</span>
+        </div>
+        <div class="summary-tile">
+          <span class="summary-tile__value" id="summaryMedications">–</span>
+          <span class="summary-tile__label">Aktuelle Medikamente</span>
+        </div>
+        <div class="summary-tile">
+          <span class="summary-tile__value" id="summaryAllergies">–</span>
+          <span class="summary-tile__label">Bekannte Allergien</span>
+        </div>
+        <div class="summary-tile">
+          <span class="summary-tile__value" id="summaryLabs">–</span>
+          <span class="summary-tile__label">Auffällige Laborwerte</span>
+        </div>
+        <div class="summary-tile summary-tile--status" id="summaryStatusTile">
+          <span class="summary-tile__value" id="summaryStatusValue">–</span>
+          <span class="summary-tile__label" id="summaryStatusLabel">Status</span>
+        </div>
+      </section>
+
+      <section class="alerts" id="alertsSection">
+        <h2 class="alerts__title">⚠ Wichtige Hinweise</h2>
+        <ul class="alerts__list" id="alertsList"></ul>
+      </section>
+
+      <section class="card card--wide" id="lastContactCard">
+        <h3>Letzter Patientenkontakt</h3>
+        <div class="contact-info" id="lastContactInfo"></div>
+      </section>
+
+      <div class="grid">
+
+        <section class="card card--master" id="masterCard">
+          <h3>Stammdaten</h3>
+          <div class="master-grid" id="masterGrid"></div>
+        </section>
+
+        <section class="card" id="diagnosesCard">
+          <h3>Aktuelle Diagnosen</h3>
+          <ul class="tag-list" id="diagnosesList"></ul>
+        </section>
+
+        <section class="card" id="allergiesCard">
+          <h3>Allergien &amp; Unverträglichkeiten</h3>
+          <ul class="tag-list" id="allergiesList"></ul>
+        </section>
+
+        <section class="card" id="medicationsCard">
+          <h3>Aktuelle Medikation</h3>
+          <table class="med-table">
+            <thead>
+              <tr><th>Wirkstoff / Präparat</th><th>Dosierung</th><th>Frequenz</th><th>Seit</th></tr>
+            </thead>
+            <tbody id="medicationsBody"></tbody>
+          </table>
+        </section>
+
+        <section class="card card--wide" id="labsCard">
+          <h3>Letzte Laborwerte</h3>
+          <div class="labs-meta" id="labsMeta"></div>
+          <table class="lab-table">
+            <thead>
+              <tr><th>Parameter</th><th>Wert</th><th>Einheit</th><th>Referenzbereich</th><th>Status</th></tr>
+            </thead>
+            <tbody id="labsBody"></tbody>
+          </table>
+        </section>
+
+        <section class="card card--wide" id="historyCard">
+          <h3>Verlauf</h3>
+          <ol class="timeline" id="historyTimeline"></ol>
+        </section>
+
+        <section class="card card--wide" id="tasksCard">
+          <h3>Offene Aufgaben <span class="task-count" id="taskCount"></span></h3>
+          <ul class="task-list" id="tasksList"></ul>
+        </section>
+
+      </div>
+    </div>
+  </main>
+</div>
+
+<footer class="app-footer">
+  Testanwendung · Alle Patienten, Befunde und Werte sind frei erfunden und dienen ausschließlich Demonstrationszwecken. Keine echten Patientendaten.
+</footer>
+
+<div class="modal-overlay" id="summaryModalOverlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="summaryModalTitle">
+    <div class="modal__header">
+      <h2 id="summaryModalTitle">Patientenzusammenfassung</h2>
+      <button class="modal__close" id="summaryModalClose" type="button" aria-label="Schließen">✕</button>
+    </div>
+    <div class="modal__body" id="summaryModalBody"></div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
