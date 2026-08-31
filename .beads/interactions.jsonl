@@ -1,1 +1,2 @@
 {"id":"int-a0dd5e0b244b6e305179e755910a009f","kind":"field_change","created_at":"2026-08-31T11:10:18.348999Z","actor":"marsanski-sudo","issue_id":"max-agent-0c8","extra":{"field":"status","new_value":"in_progress","old_value":"open"}}
+{"id":"int-2eb60ca34289010acf0bd54b0b9da6a3","kind":"field_change","created_at":"2026-08-31T12:43:13.334863Z","actor":"marsanski-sudo","issue_id":"max-agent-0c8","extra":{"field":"status","new_value":"closed","old_value":"in_progress","reason":"Closed"}}
