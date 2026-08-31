@@ -58,20 +58,38 @@ This protocol applies when ending a Beads implementation workflow. It is subordi
 <!-- END BEADS INTEGRATION -->
 
 
-## Build & Test
-
-_Add your build and test commands here_
-
-```bash
-# Example:
-# npm install
-# npm test
-```
-
 ## Architecture Overview
 
-_Add a brief overview of your project architecture_
+The project is a modular AI agent foundation.
+
+Core components:
+- `AGENTS.md` — global agent instructions and workflow rules.
+- `CLAUDE.md` — Claude-specific instructions and project guidance.
+- `.beads/` — persistent task and issue tracking.
+- `agents/` — agent definitions and skills.
+- `memory/` — persistent agent memory.
+- `tasks/` — task-specific workflows and artifacts.
+- `scripts/` — automation and helper scripts.
+- `.codex/` — Codex-specific project configuration and hooks.
+
+The agent should work in a controlled loop:
+1. Understand the task.
+2. Inspect the repository and existing context.
+3. Create or update a Beads issue when appropriate.
+4. Make the smallest necessary changes.
+5. Validate the changes.
+6. Report what was changed, what was found, and what remains open.
 
 ## Conventions & Patterns
 
-_Add your project-specific conventions here_
+- Prefer simple solutions over unnecessary complexity.
+- Inspect existing files and conventions before creating new ones.
+- Keep changes small and focused.
+- Use Beads for persistent task tracking.
+- Do not create ad-hoc TODO lists when a Beads issue is appropriate.
+- Never claim that something works without validating it.
+- Run relevant tests or checks after making changes.
+- Do not commit or push without explicit authorization.
+- If something is unclear, investigate before guessing.
+- Keep sensitive information such as API keys and credentials out of the repository.
+- Document important architectural or workflow decisions.
